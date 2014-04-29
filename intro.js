@@ -55,7 +55,9 @@
       /* Show tour bullets? */
       showBullets: true,
       /* Scroll to highlighted element? */
-      scrollToElement: true
+      scrollToElement: true,
+      /* Custom element selector for the popup */
+      custom_element: '',
     };
   }
 
@@ -559,11 +561,13 @@
 
     } else {
       var helperLayer       = document.createElement('div'),
+          titleLayer        = document.createElement('div'),
+          imageLayer        = document.createElement('img'),
           arrowLayer        = document.createElement('div'),
           tooltipLayer      = document.createElement('div'),
           tooltipTextLayer  = document.createElement('div'),
-          bulletsLayer      = document.createElement('div'),
-          buttonsLayer      = document.createElement('div');
+          buttonsLayer      = document.createElement('div'),
+          bulletsLayer      = document.createElement('div');
 
       helperLayer.className = 'introjs-helperLayer';
 
@@ -577,6 +581,26 @@
 
       tooltipTextLayer.className = 'introjs-tooltiptext';
       tooltipTextLayer.innerHTML = targetElement.intro;
+
+      if (this._options.feature_title) {
+        titleLayer.className = 'introjs-scribd-title';
+        pre_title = document.createElement('div');
+        pre_title.className = "pre_title"
+        pre_title.innerHTML = "Featuring";
+        feature_title = document.createElement('div');
+        feature_title.innerHTML = this._options.feature_title;
+        titleLayer.appendChild(pre_title);
+        titleLayer.appendChild(feature_title);
+      }
+
+      if(targetElement.image_path) {
+        imageLayer.className = 'introjs-scribd-image';
+        imageLayer.src = targetElement.image_path;
+      }
+      //titleLayer.
+      console.log(targetElement)
+
+      // Bullet creation
 
       bulletsLayer.className = 'introjs-bullets';
 
@@ -612,8 +636,6 @@
       }
 
       tooltipLayer.className = 'introjs-tooltip';
-      tooltipLayer.appendChild(tooltipTextLayer);
-      tooltipLayer.appendChild(bulletsLayer);
 
       //add helper layer number
       if (this._options.showStepNumbers == true) {
@@ -675,7 +697,11 @@
         buttonsLayer.appendChild(nextTooltipButton);
       }
 
+      tooltipLayer.appendChild(titleLayer);
+      tooltipLayer.appendChild(imageLayer);
+      tooltipLayer.appendChild(tooltipTextLayer);
       tooltipLayer.appendChild(buttonsLayer);
+      tooltipLayer.appendChild(bulletsLayer);
 
       //set proper position
       _placeTooltip.call(self, targetElement.element, tooltipLayer, arrowLayer, helperNumberLayer);
