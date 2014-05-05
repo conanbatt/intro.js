@@ -506,6 +506,7 @@
       var oldHelperNumberLayer = oldHelperLayer.querySelector('.introjs-helperNumberLayer'),
           oldtooltipLayer      = oldHelperLayer.querySelector('.introjs-tooltiptext'),
           oldArrowLayer        = oldHelperLayer.querySelector('.introjs-arrow'),
+          oldImageLayer        = oldHelperLayer.querySelector('.introjs-scribd-image'),
           oldtooltipContainer  = oldHelperLayer.querySelector('.introjs-tooltip'),
           skipTooltipButton    = oldHelperLayer.querySelector('.introjs-skipbutton'),
           prevTooltipButton    = oldHelperLayer.querySelector('.introjs-prevbutton'),
@@ -513,6 +514,13 @@
 
       //hide the tooltip
       oldtooltipContainer.style.opacity = 0;
+
+      if(targetElement.image_path){
+        oldImageLayer.src = targetElement.image_path;
+        oldImageLayer.style.display = "inherit"
+      } else {
+        oldImageLayer.style.display = 'none';
+      }
 
       if (oldHelperNumberLayer != null) {
         var lastIntroItem = this._introItems[(targetElement.step - 2 >= 0 ? targetElement.step - 2 : 0)];
@@ -556,7 +564,7 @@
 
         //show the tooltip
         oldtooltipContainer.style.opacity = 1;
-        oldHelperNumberLayer.style.opacity = 1;
+        oldHelperLayer.style.opacity = 1;
       }, 350);
 
     } else {
